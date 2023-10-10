@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../provider/weatherProvider.dart';
-import '../widgets/WeatherInfo.dart';
 import '../widgets/fadeIn.dart';
-import '../widgets/hourlyForecast.dart';
 import '../widgets/locationError.dart';
 import '../widgets/mainWeather.dart';
 import '../widgets/requestError.dart';
@@ -97,16 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     curve: Curves.easeIn,
                                     duration: Duration(milliseconds: 250),
                                     child: MainWeather(),
-                                  ),
-                                  FadeIn(
-                                    curve: Curves.easeIn,
-                                    duration: Duration(milliseconds: 500),
-                                    child: WeatherInfo(),
-                                  ),
-                                  FadeIn(
-                                    curve: Curves.easeIn,
-                                    duration: Duration(milliseconds: 750),
-                                    child: HourlyForecast(),
                                   ),
                                 ],
                               ),

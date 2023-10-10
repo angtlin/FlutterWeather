@@ -75,7 +75,6 @@ class WeatherProvider with ChangeNotifier {
     try {
       currentLocation = LatLng(locData.latitude, locData.longitude);
       await getCurrentWeather(currentLocation!);
-      await getDailyWeather(currentLocation!);
     } catch (e) {
       print(e);
       isLocationError = true;
@@ -94,49 +93,7 @@ class WeatherProvider with ChangeNotifier {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       weather = Weather.fromJson(extractedData);
     } catch (error) {
-      print(error);
       isLoading = false;
-      this.isRequestError = true;
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> getDailyWeather(LatLng location) async {
-    isLoading = true;
-    notifyListeners();
-
-    Uri dailyUrl = Uri.parse(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=${location.latitude}&lon=${location.longitude}&units=metric&exclude=minutely,current&appid=$apiKey',
-    );
-    try {
-      final response = await http.get(dailyUrl);
-      inspect(response.body);
-      final dailyData = json.decode(response.body) as Map<String, dynamic>;
-      currentWeather = DailyWeather.fromJson(dailyData);
-      List items = dailyData['daily'];
-      List itemsHourly = dailyData['hourly'];
-      hourlyWeather = itemsHourly
-          .map((item) => DailyWeather.fromHourlyJson(item))
-          .toList()
-          .skip(1)
-          .take(3)
-          .toList();
-      hourly24Weather = itemsHourly
-          .map((item) => DailyWeather.fromHourlyJson(item))
-          .toList()
-          .skip(1)
-          .take(24)
-          .toList();
-      sevenDayWeather = items
-          .map((item) => DailyWeather.fromDailyJson(item))
-          .toList()
-          .skip(1)
-          .take(7)
-          .toList();
-    } catch (error) {
-      print(error);
       this.isRequestError = true;
     } finally {
       isLoading = false;
@@ -172,6 +129,5 @@ class WeatherProvider with ChangeNotifier {
       notifyListeners();
       return;
     }
-    await getDailyWeather(LatLng(weather!.lat, weather!.long));
   }
 }

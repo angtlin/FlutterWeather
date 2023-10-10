@@ -3,8 +3,6 @@ import 'package:flutter_weather/provider/weatherProvider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../helper/utils.dart';
-
 class WeatherInfo extends StatelessWidget {
   Widget _weatherInfoBuilder({
     required String header,
@@ -68,12 +66,6 @@ class WeatherInfo extends StatelessWidget {
                   indent: 10.0,
                   endIndent: 10.0,
                 ),
-              ),
-              _weatherInfoBuilder(
-                header: 'UV Index',
-                body: UvIndex.mapUviValueToString(
-                    uvi: weatherProv.currentWeather.uvi),
-                icon: MdiIcons.sunWireless,
               ),
             ],
           ),
